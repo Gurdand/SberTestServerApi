@@ -25,7 +25,7 @@ public class AnswerRestController {
                                       @PathVariable String answer,
                                       HttpSession session) {
 
-        String login = (String) session.getAttribute("Login");
+        String login = (String) session.getAttribute("Authorization");
 
         if (login == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();

@@ -24,7 +24,7 @@ public class AuthorizationRestController {
     public ResponseEntity<String> authorization(@PathVariable(value = "login") String login,
                                                 HttpSession session) {
         if (userService.authorization(login)) {
-            session.setAttribute("Login", login);
+            session.setAttribute("Authorization", login);
             return new ResponseEntity<>("Authorized: " + login, HttpStatus.OK);
         }
         return new ResponseEntity<>("Authorization failed", HttpStatus.BAD_REQUEST);
@@ -32,7 +32,7 @@ public class AuthorizationRestController {
 
     @RequestMapping(path = "/logout", method = RequestMethod.GET)
     public ResponseEntity<String> logout(HttpSession session) {
-        session.removeAttribute("Login");
+        session.removeAttribute("Authorization");
         return new ResponseEntity<>("Logout", HttpStatus.OK);
     }
 }
