@@ -1,12 +1,13 @@
-package app.service.task.impl;
+package app.service.task;
 
 import app.dao.TaskRepository;
+import app.dto.TaskDto;
 import app.model.Task;
-import app.service.task.TaskService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class TaskServiceImpl implements TaskService {
@@ -23,13 +24,13 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public List<Task> getAllTasks() {
-        return taskRepository.getAllTasks();
+    public List<TaskDto> getAllTasks() {
+        return taskRepository.getAllTasks().stream().map(this::taskToDto).collect(Collectors.toList());
     }
 
     @Override
-    public Optional<Task> getTask(Long taskId) {
-        return taskRepository.getTaskById(taskId);
+    public Optional<TaskDto> getTask(Long taskId) {
+        return taskRepository.getTaskById(taskId).map(this::taskToDto);
     }
 
     @Override
@@ -41,5 +42,10 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public boolean isTaskExist(Long taskId) {
         return taskRepository.getTaskById(taskId).isPresent();
+    }
+
+    @Override
+    public TaskDto taskToDto(Task task) {
+        return new TaskDto(task.getId(), task.getQuestion(), task.getAnswerOptions());
     }
 }

@@ -1,5 +1,6 @@
 package app.restcontroller;
 
+import app.dto.TaskDto;
 import app.model.Task;
 import app.service.task.TaskService;
 import org.springframework.http.HttpStatus;
@@ -20,16 +21,16 @@ public class TaskRestController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Task>> getAllTasks() {
-        List<Task> taskList = taskService.getAllTasks();
+    public ResponseEntity<List<TaskDto>> getAllTasks() {
+        List<TaskDto> taskList = taskService.getAllTasks();
         return new ResponseEntity<>(taskList, HttpStatus.OK);
     }
 
     @GetMapping(path = "/{id}")
     public ResponseEntity<?> getTask(@PathVariable long id) {
-        Optional<Task> task = taskService.getTask(id);
-        if (task.isPresent()) {
-            return new ResponseEntity<>(task.get(), HttpStatus.OK);
+        Optional<TaskDto> taskDto = taskService.getTask(id);
+        if (taskDto.isPresent()) {
+            return new ResponseEntity<>(taskDto.get(), HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }

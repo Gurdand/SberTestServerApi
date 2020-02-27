@@ -66,7 +66,7 @@ public class TaskRepositoryImpl implements TaskRepository {
     @Override
     public void updateTask(Task task) {
         jdbcTemplate.update(
-                "UPDATE tasks " +
+                "UPDATE tasks SET " +
                         "question = ?, option_1 = ?, option_2 = ?, option_3 = ?, option_4 = ?, answer = ? " +
                         "WHERE id = ?",
                         task.getQuestion(),

@@ -1,17 +1,20 @@
 package app.restcontroller;
 
-import app.service.task.AnswerService;
+import app.dto.AnswerDto;
+import app.service.answer.AnswerService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpSession;
+import java.util.Optional;
 
 @Controller
-@RequestMapping(path = "/api/task/check")
+@RequestMapping(path = "/api/answer")
 public class AnswerRestController {
 
     private AnswerService answerService;
@@ -20,7 +23,7 @@ public class AnswerRestController {
         this.answerService = answerService;
     }
 
-    @GetMapping(path = "/{taskId}/{answer}")
+    @PostMapping(path = "/{taskId}/{answer}")
     public ResponseEntity<?> checkAnswer(@PathVariable Integer taskId,
                                       @PathVariable String answer,
                                       HttpSession session) {
@@ -30,11 +33,28 @@ public class AnswerRestController {
         if (login == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
-        if (answerService.checkUserAnswer(login, taskId, answer)) {
-            return ResponseEntity.ok().build();
-        } else {
-            return new ResponseEntity<>("Wrong answer", HttpStatus.CREATED);
+
+        Optional<AnswerDto> answerDto = answerService.checkUserAnswer(login, taskId, answer);
+
+        if (answerDto.isPresent()) {
+            return new ResponseEntity<>(answerDto, HttpStatus.OK);
         }
 
+        return ResponseEntity.badRequest().build();
     }
+
+    @GetMapping(path = "/{userLogin}")
+    public ResponseEntity<?> getUserAnswer(@PathVariable(required = false) String userLogin,
+                                           HttpSession session) {
+        if (userLogin == null) {
+            userLogin = (String)session.getAttribute("Authorization");
+            if (userLogin.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            }
+        }
+
+        return new ResponseEntity<>(answerService.getUserAnswer(userLogin), HttpStatus.OK);
+
+    }
+
 }

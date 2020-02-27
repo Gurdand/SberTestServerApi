@@ -1,5 +1,6 @@
 package app.service.task;
 
+import app.dto.TaskDto;
 import app.model.Task;
 
 import java.util.List;
@@ -9,12 +10,14 @@ public interface TaskService {
 
     void createTask(Task task);
 
-    List<Task> getAllTasks();
+    List<TaskDto> getAllTasks();
 
-    Optional<Task> getTask(Long taskId);
+    Optional<TaskDto> getTask(Long taskId);
 
     void updateTask(Long taskId, Task task);
 
     boolean isTaskExist(Long taskId);
+
+    TaskDto taskToDto(Task task);
 
 }

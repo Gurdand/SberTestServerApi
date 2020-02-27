@@ -20,7 +20,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void registration(String login) {
-        userRepository.creatUser(new User(login));
+        userRepository.creatUser(new User(null, login));
     }
 
     @Override

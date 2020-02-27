@@ -1,13 +1,12 @@
-package app.model;
+package app.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class Answer {
+public class AnswerDto {
 
-    private Long userId;
     private Long taskId;
     private String answer;
     private boolean isPassed;
