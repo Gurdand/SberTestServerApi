@@ -3,8 +3,10 @@ package app.service.statistic;
 import app.dao.StatisticRepository;
 import app.model.Statistic;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 public class StatisticServiceImpl implements StatisticService {
 
     private StatisticRepository statisticRepository;

@@ -8,6 +8,7 @@ import app.model.Answer;
 import app.model.Task;
 import app.model.User;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +16,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class AnswerServiceImpl implements AnswerService {
 
     private UserRepository userRepository;
